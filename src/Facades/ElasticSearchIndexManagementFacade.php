@@ -8,6 +8,6 @@ class ElasticSearchIndexManagementFacade extends Facade
 
     public static function getFacadeAccessor()
     {
-        return 'ElasticSearchIndexManagementFacade';
+        return 'ElasticSearchIndexManagement';
     }
 }

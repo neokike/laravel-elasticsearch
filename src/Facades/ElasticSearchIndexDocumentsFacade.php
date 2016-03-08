@@ -8,6 +8,6 @@ class ElasticSearchIndexDocumentsFacade extends Facade
 
     public static function getFacadeAccessor()
     {
-        return 'ElasticSearchIndexDocumentsFacade';
+        return 'ElasticSearchIndexDocuments';
     }
 }
