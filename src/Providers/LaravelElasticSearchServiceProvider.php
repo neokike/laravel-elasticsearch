@@ -1,11 +1,12 @@
 <?php
 
-namespace Neokike\LaravelElasticSearch;
+namespace Neokike\LaravelElasticSearch\Providers;
 
 use Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexDocumentsHandler;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexManagementHandler;
+use Neokike\LaravelElasticsearchQueryBuilder\Providers\LaravelElasticSearchQueryBuilderServiceProvider;
 
 class LaravelElasticSearchServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,7 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register(LaravelElasticSearchQueryBuilderServiceProvider::class);
         $this->app->singleton('ElasticSearchIndexDocuments', function ($app) {
             $config = $app['config']->get('laravelElasticSearch');
             $logger = ClientBuilder::defaultLogger($config['logPath']);

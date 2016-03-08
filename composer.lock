@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5e7bbf1622069c4078de00052faff66f",
-    "content-hash": "724d8e56f8c3d74f8514f3b0751f30b9",
+    "hash": "22243f1d0e91ef8ef7c5436623c38d35",
+    "content-hash": "3c74912155ba4c2d5a332e923edc731c",
     "packages": [
         {
             "name": "elasticsearch/elasticsearch",
@@ -245,8 +245,14 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/neokike/laravel-elasticsearch-query-builder",
-                "reference": "34f27f493a6ee71bdc3dec07f13123ddebf99849"
+                "url": "https://github.com/neokike/laravel-elasticsearch-query-builder.git",
+                "reference": "3a02e5593bb0bc5f4c16bee2262fcc5439b1c46f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/neokike/laravel-elasticsearch-query-builder/zipball/3a02e5593bb0bc5f4c16bee2262fcc5439b1c46f",
+                "reference": "3a02e5593bb0bc5f4c16bee2262fcc5439b1c46f",
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
@@ -257,12 +263,13 @@
                 "phpspec/phpspec": "~2.1",
                 "phpunit/phpunit": "~4.0"
             },
-            "type": "laravel 5, search, elasticsearch",
+            "type": "library",
             "autoload": {
                 "psr-4": {
                     "Neokike\\LaravelElasticsearchQueryBuilder\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT License"
             ],
@@ -273,7 +280,12 @@
                 }
             ],
             "description": "Package for generating elasticsearch queries",
-            "time": "2016-03-07 18:10:40"
+            "keywords": [
+                "elasticsearch",
+                "laravel5",
+                "search"
+            ],
+            "time": "2016-03-08 19:56:26"
         },
         {
             "name": "psr/log",
