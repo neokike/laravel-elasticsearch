@@ -23,7 +23,7 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../resources/config/laravelElasticSearch.php' => $this->app->configPath() . '/' . 'laravelElasticSearch.php',
+            __DIR__ . '/../../resources/config/laravelElasticSearch.php' => $this->app->configPath() . '/' . 'laravelElasticSearch.php',
         ], 'config');
     }
 
