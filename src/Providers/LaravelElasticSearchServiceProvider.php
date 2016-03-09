@@ -80,6 +80,6 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('ElasticSearchIndexDocuments', 'ElasticSearchIndexManagement');
+        return array('ElasticSearchIndexDocuments', 'ElasticSearchIndexManagement', 'LaravelElasticSearch');
     }
 }
