@@ -8,6 +8,6 @@ class LaravelElasticSearchFacade extends Facade
 
     public static function getFacadeAccessor()
     {
-        return 'LaravelElasticSearch';
+        return 'Neokike\LaravelElasticSearch\Handlers\LaravelElasticSearch';
     }
 }
