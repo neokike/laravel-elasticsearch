@@ -34,7 +34,7 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(LaravelElasticSearchQueryBuilderServiceProvider::class);
-        $this->app->singleton('ElasticSearchIndexDocuments', function ($app) {
+        $this->app->singleton('Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexDocumentsHandler', function ($app) {
             $config = $app['config']->get('laravelElasticSearch');
             $logger = ClientBuilder::defaultLogger($config['logPath']);
 
@@ -47,7 +47,7 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
 
             return $searchHandler;
         });
-        $this->app->singleton('ElasticSearchIndexManagement', function ($app) {
+        $this->app->singleton('Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexManagementHandler', function ($app) {
             $config = $app['config']->get('laravelElasticSearch');
             $logger = ClientBuilder::defaultLogger($config['logPath']);
 
@@ -66,7 +66,7 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
             return $searchHandler;
         });
 
-        $this->app->singleton('LaravelElasticSearch', function ($app) {
+        $this->app->singleton('Neokike\LaravelElasticSearch\Handlers\LaravelElasticSearch', function ($app) {
 
             $laravelElasticSearch = new LaravelElasticSearch($app['ElasticSearchIndexManagement'], $app['ElasticSearchIndexDocuments']);
             return $laravelElasticSearch;
