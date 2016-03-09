@@ -68,7 +68,7 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
 
         $this->app->singleton('Neokike\LaravelElasticSearch\Handlers\LaravelElasticSearch', function ($app) {
 
-            $laravelElasticSearch = new LaravelElasticSearch($app['ElasticSearchIndexManagement'], $app['ElasticSearchIndexDocuments']);
+            $laravelElasticSearch = new LaravelElasticSearch($app[ElasticSearchIndexManagementHandler::class], $app[ElasticSearchIndexDocumentsHandler::class]);
             return $laravelElasticSearch;
         });
     }
