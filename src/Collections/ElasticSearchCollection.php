@@ -154,7 +154,11 @@ class ElasticSearchCollection extends \Illuminate\Database\Eloquent\Collection
     private function newObject($hit)
     {
         $instance = new \stdClass();
-        $instance->_source = $hit['_source'];
+        if (isset($hit['_source'])) {
+            foreach ($hit['_source'] as $key => $value) {
+                $instance->$key = $value;
+            }
+        }
         // Add fields to attributes
         if (isset($hit['fields'])) {
             foreach ($hit['fields'] as $key => $value) {

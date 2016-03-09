@@ -1,7 +1,7 @@
 <?php
 namespace Neokike\LaravelElasticSearch\Repositories;
 
-use Neokike\LaravelElasticSearch\Handlers\ElasticSearchHandler;
+use Neokike\LaravelElasticSearch\Handlers\LaravelElasticSearch;
 use Neokike\LaravelElasticsearchQueryBuilder\ElasticQueryBuilder;
 use Neokike\LaravelElasticsearchQueryBuilder\Exceptions\InvalidArgumentException;
 use Neokike\LaravelElasticsearchQueryBuilder\Interfaces\QueryInterface;
@@ -25,7 +25,7 @@ class ElasticSearchBaseRepository
 
     public function __construct(ElasticQueryBuilder $elasticQueryBuilder,
                                 ElasticBoolQuery $elasticBoolQuery,
-                                ElasticSearchHandler $elasticSearchHandler)
+                                LaravelElasticSearch $elasticSearchHandler)
     {
         $this->elasticQueryBuilder = $elasticQueryBuilder;
         $this->elasticBoolQuery = $elasticBoolQuery;
@@ -128,16 +128,16 @@ class ElasticSearchBaseRepository
             throw new InvalidArgumentException;
         }
 
-        $this->elasticQueryBuilder->search($query);
+        $this->elasticSearchHandler->search($query->toArray());
         return $this;
     }
 
     public function execute()
     {
         if (!$this->elasticQueryBuilder->raw && !$this->elasticQueryBuilder->search)
-            $this->elasticQueryBuilder->search($this->elasticBoolQuery);
+            $this->elasticSearchHandler->search($this->elasticBoolQuery->toArray());
 
-        return $this->elasticSearchHandler->getResults($this->query());
+        return $this->elasticSearchHandler->search($this->query());
     }
 
     public function query()
