@@ -11,27 +11,52 @@ class LaravelElasticSearch implements LaravelElasticSearchInterface
      */
     public $manager;
     /**
-     * @var ElasticSearchIndexDocumentsFacade
+     * @var ElasticSearchIndexDocumentsHandler
      */
     public $indexer;
+    /**
+     * @var ElasticSearchSearchHandler
+     */
+    public $searcher;
 
     public function __construct(ElasticSearchIndexManagementHandler $manager,
-                                ElasticSearchIndexDocumentsHandler $indexer)
+                                ElasticSearchIndexDocumentsHandler $indexer,
+                                ElasticSearchSearchHandler $searcher)
     {
 
         $this->manager = $manager;
         $this->indexer = $indexer;
+        $this->searcher = $searcher;
     }
 
-    public function manager()
+    /**
+     * index an Searchable object or a collection of them
+     * @param $documents
+     * @return mixed
+     */
+    public function indexDocuments($documents)
     {
-        return $this->manager;
+        // TODO: Implement indexDocuments() method.
     }
 
-    public function indexer()
+    /**
+     * delete an Searchable object or a collection of them
+     * @param $documents
+     * @return mixed
+     */
+    public function deleteDocuments($documents)
     {
-        return $this->indexer;
+        // TODO: Implement deleteDocuments() method.
     }
 
 
+    /**
+     * Perform a search
+     * @param $query
+     * @return mixed
+     */
+    public function search($query)
+    {
+        return $this->searcher->search($query);
+    }
 }

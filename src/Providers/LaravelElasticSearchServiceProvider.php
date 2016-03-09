@@ -6,6 +6,7 @@ use Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexDocumentsHandler;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexManagementHandler;
+use Neokike\LaravelElasticSearch\Handlers\ElasticSearchSearchHandler;
 use Neokike\LaravelElasticSearch\Handlers\LaravelElasticSearch;
 use Neokike\LaravelElasticsearchQueryBuilder\Providers\LaravelElasticSearchQueryBuilderServiceProvider;
 
@@ -66,9 +67,23 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
             return $searchHandler;
         });
 
+        $this->app->singleton('Neokike\LaravelElasticSearch\Handlers\ElasticSearchSearchHandler', function ($app) {
+            $config = $app['config']->get('laravelElasticSearch');
+            $logger = ClientBuilder::defaultLogger($config['logPath']);
+
+            $elasticSearchClient = ClientBuilder::create()
+                ->setLogger($logger)
+                ->fromConfig($config['connection']);
+
+            $searchHandler = new ElasticSearchSearchHandler($elasticSearchClient);
+            $searchHandler->setIndexName($config['defaultIndexName']);
+
+            return $searchHandler;
+        });
+
         $this->app->singleton('Neokike\LaravelElasticSearch\Handlers\LaravelElasticSearch', function ($app) {
 
-            $laravelElasticSearch = new LaravelElasticSearch($app[ElasticSearchIndexManagementHandler::class], $app[ElasticSearchIndexDocumentsHandler::class]);
+            $laravelElasticSearch = new LaravelElasticSearch($app[ElasticSearchIndexManagementHandler::class], $app[ElasticSearchIndexDocumentsHandler::class], $app[ElasticSearchSearchHandler::class]);
             return $laravelElasticSearch;
         });
     }
