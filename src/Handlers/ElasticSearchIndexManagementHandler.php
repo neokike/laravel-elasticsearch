@@ -102,11 +102,19 @@ class ElasticSearchIndexManagementHandler implements ElasticSearchIndexManagemen
                 'settings' => [
                     'number_of_shards'   => $this->shards,
                     'number_of_replicas' => $this->replicas,
-                    'analysis'           => $this->analysis,
-                ],
-                'mappings' => $this->mappings
+                ]
             ]
         ];
+
+        if (count($this->mappings)) {
+            $config['body']['mappings'] = $this->mappings;
+        }
+
+        if (count($this->analysis)) {
+            $config['body']['settings']['analysis'] = $this->analysis;
+        }
+
+
         return $config;
     }
 
