@@ -3,7 +3,7 @@ namespace Neokike\LaravelElasticSearch\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class ElasticSearchIndexDocumentsFacade extends Facade
+class LaravelElasticSearchFacade extends Facade
 {
 
     public static function getFacadeAccessor()
