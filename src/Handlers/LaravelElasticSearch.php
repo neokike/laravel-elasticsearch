@@ -23,5 +23,15 @@ class LaravelElasticSearch implements LaravelElasticSearchInterface
         $this->indexer = $indexer;
     }
 
+    public function manager()
+    {
+        return $this->manager;
+    }
+
+    public function indexer()
+    {
+        return $this->indexer;
+    }
+
 
 }
