@@ -34,40 +34,6 @@ class ElasticSearchIndexManagementHandler implements ElasticSearchIndexManagemen
         $this->elasticsearch = $elasticsearch;
     }
 
-    public function createIndex($config = [])
-    {
-        if (!is_array($config))
-            throw new InvalidArgumentException('the config param must be an array');
-
-        if (!count($config)) {
-            $config = [
-                'index' => $this->indexName,
-                'body'  => [
-                    'settings' => [
-                        'number_of_shards'   => $this->shards,
-                        'number_of_replicas' => $this->replicas,
-                        'analysis'           => $this->analysis,
-                    ],
-                    'mappings' => $this->mappings
-                ]
-            ];
-        }
-
-        $response = $this->elasticsearch->indices();
-            //->create($config);
-        return $response;
-    }
-
-    /**
-     * Remove everything from the index.
-     *
-     * @return mixed
-     */
-    public function clearIndex()
-    {
-        $this->elasticsearch->indices()->delete(['index' => $this->indexName]);
-    }
-
     /**
      * Set the number of replicas of the index
      *
@@ -82,7 +48,7 @@ class ElasticSearchIndexManagementHandler implements ElasticSearchIndexManagemen
     /**
      * Set the number of shards of the index
      *
-     * @param $shrads
+     * @param $shards
      * @return mixed
      */
     public function setShrads($shards)
@@ -110,5 +76,173 @@ class ElasticSearchIndexManagementHandler implements ElasticSearchIndexManagemen
     public function setMappings($mappings)
     {
         $this->mappings = $mappings;
+    }
+
+    public function create($config = [])
+    {
+        if (!is_array($config))
+            throw new InvalidArgumentException('the config param must be an array');
+
+        if (!count($config)) {
+            $config = $this->setConfig();
+        }
+
+        $response = $this->elasticsearch->indices()->create($config);
+        return $response;
+    }
+
+    /**
+     * @return array
+     */
+    private function setConfig()
+    {
+        $config = [
+            'index' => $this->indexName,
+            'body'  => [
+                'settings' => [
+                    'number_of_shards'   => $this->shards,
+                    'number_of_replicas' => $this->replicas,
+                    'analysis'           => $this->analysis,
+                ],
+                'mappings' => $this->mappings
+            ]
+        ];
+        return $config;
+    }
+
+    /**
+     * Remove everything from the index.
+     *
+     * @param null $index
+     * @return mixed
+     */
+    public function delete($index = null)
+    {
+        if ($index)
+            return $this->elasticsearch->indices()->delete(['index' => $index]);
+
+        return $this->elasticsearch->indices()->delete(['index' => $this->indexName]);
+    }
+
+    /**
+     * modify any index setting that is dynamic
+     * @param $settings
+     * @return mixed
+     */
+    public function putSettings($settings)
+    {
+        return $this->elasticsearch->indices()->putSettings($settings);
+    }
+
+    /**
+     * show you the currently configured settings for one or more indexes
+     * @param array $indexes
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function getSettings($indexes = [])
+    {
+        if (!is_array($indexes))
+            throw new InvalidArgumentException('it must be an array of indexes names');
+
+        $indexQty = count($indexes);
+
+        if ($indexQty) {
+            return $this->elasticsearch->indices()->getSettings(['index' => $this->indexName]);
+        }
+
+        return $this->elasticsearch->indices()->getSettings(['index' => $indexes]);
+
+    }
+
+    /**
+     * allows you to modify or add to an existing index’s mapping.
+     * @param $mappings
+     * @param $type
+     * @param null $index
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function putMapping($mappings, $type, $index = null)
+    {
+        if (!is_array($mappings))
+            throw new InvalidArgumentException('it must be an mapping options array');
+
+        $mapping = $this->configMapping($mappings, $type, $index);
+
+        return $this->elasticsearch->indices()->putMapping($mapping);
+    }
+
+    /**
+     * @param $mappings
+     * @param $type
+     * @param $index
+     * @return array
+     */
+    private function configMapping($mappings, $type, $index)
+    {
+        if (!$index) {
+            $index = $this->indexName;
+        }
+
+        $mapping = [
+            'index' => $index,
+            'type'  => $type,
+            'body'  => $mappings
+        ];
+        return $mapping;
+    }
+
+    /**
+     * return the mapping details about your indexes and types.
+     * @param $type
+     * @param null $index
+     * @return mixed
+     */
+    public function getMappings($type = null, $index = null)
+    {
+
+        $params = $this->setGetMappingParams($type, $index);
+
+        return $this->elasticsearch->indices()->getMapping($params);
+    }
+
+    /**
+     * @param $type
+     * @param $index
+     * @return array
+     */
+    private function setGetMappingParams($type, $index)
+    {
+        $params = [];
+
+        if ($index) {
+            $params['index'] = $index;
+        }
+
+        if ($type) {
+            $params['type'] = $type;
+        }
+
+        if (!$index && !$type) {
+            $params['index'] = $this->indexName;
+            return $params;
+        }
+        return $params;
+    }
+
+    public function __call($method, $params)
+    {
+        return call_user_func_array(array($this->elasticsearch->indices(), $method), $params);
+    }
+
+    /**
+     * recreate index with default options in config file
+     * @return mixed
+     */
+    public function recreate()
+    {
+        $this->delete($this->indexName);
+        return $this->create();
     }
 }

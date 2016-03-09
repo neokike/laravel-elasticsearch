@@ -6,6 +6,7 @@ use Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexDocumentsHandler;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexManagementHandler;
+use Neokike\LaravelElasticSearch\Handlers\LaravelElasticSearch;
 use Neokike\LaravelElasticsearchQueryBuilder\Providers\LaravelElasticSearchQueryBuilderServiceProvider;
 
 class LaravelElasticSearchServiceProvider extends ServiceProvider
@@ -63,6 +64,12 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
             $searchHandler->setReplicas($config['number_of_replicas']);
 
             return $searchHandler;
+        });
+
+        $this->app->singleton('LaravelElasticSearch', function ($app) {
+
+            $laravelElasticSearch = new LaravelElasticSearch($app['ElasticSearchIndexManagement'], $app['ElasticSearchIndexDocuments']);
+            return $laravelElasticSearch;
         });
     }
 

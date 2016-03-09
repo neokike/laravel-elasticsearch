@@ -22,7 +22,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Neokike\\LaravelElasticSearch\\": "src/"
+      "Neokike\\LaravelElasticSearch\\": "src/",
+      "Test\\": "tests/"
     }
   }
 }
