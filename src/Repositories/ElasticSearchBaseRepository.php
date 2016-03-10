@@ -8,7 +8,7 @@ use Neokike\LaravelElasticsearchQueryBuilder\Interfaces\QueryInterface;
 use Neokike\LaravelElasticsearchQueryBuilder\Queries\Bool\ElasticBoolQuery;
 use Neokike\LaravelElasticsearchQueryBuilder\Queries\Match\ElasticMatchQuery;
 
-class ElasticSearchBaseRepository
+Abstract class ElasticSearchBaseRepository
 {
     /**
      * @var ElasticQueryBuilder
@@ -118,8 +118,7 @@ class ElasticSearchBaseRepository
 
     public function raw($rawQuery)
     {
-        $this->elasticQueryBuilder->raw($rawQuery);
-        return $this;
+        return $this->elasticSearchHandler->search($rawQuery);
     }
 
     public function elasticQuery($query)
@@ -128,15 +127,11 @@ class ElasticSearchBaseRepository
             throw new InvalidArgumentException;
         }
 
-        $this->elasticSearchHandler->search($query->toArray());
-        return $this;
+        return $this->elasticSearchHandler->search($query->toArray());
     }
 
-    public function execute()
+    public function search()
     {
-        if (!$this->elasticQueryBuilder->raw && !$this->elasticQueryBuilder->search)
-            $this->elasticSearchHandler->search($this->elasticBoolQuery->toArray());
-
         return $this->elasticSearchHandler->search($this->query());
     }
 

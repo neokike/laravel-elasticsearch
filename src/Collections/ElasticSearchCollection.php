@@ -15,7 +15,7 @@ class ElasticSearchCollection extends \Illuminate\Database\Eloquent\Collection
     /**
      * Create a new instance containing Elasticsearch results
      *
-     * @param $results elasticsearch results
+     * @param $results
      */
 
     public function __construct($results)
