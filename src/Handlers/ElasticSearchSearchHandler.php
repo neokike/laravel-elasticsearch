@@ -5,7 +5,11 @@ namespace Neokike\LaravelElasticSearch\Handlers;
 use Elasticsearch\Client;
 use Neokike\LaravelElasticSearch\Collections\ElasticSearchCollection;
 use Neokike\LaravelElasticSearch\Contracts\ElasticSearchSearchHandlerInterface;
+use Neokike\LaravelElasticSearch\Exceptions\InvalidArgumentException;
 use Neokike\LaravelElasticSearch\Handlers\Traits\ElasticSearchHandlerTrait;
+use Neokike\LaravelElasticsearchQueryBuilder\ElasticQueryBuilder;
+use Neokike\LaravelElasticsearchQueryBuilder\Queries\Bool\ElasticBoolQuery;
+use Neokike\LaravelElasticsearchQueryBuilder\Queries\Match\ElasticMatchQuery;
 
 class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
 {
@@ -26,6 +30,107 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
     public function __construct(Client $elasticsearch)
     {
         $this->elasticsearch = $elasticsearch;
+        $this->elasticQueryBuilder = new ElasticQueryBuilder();
+        $this->elasticBoolQuery = new ElasticBoolQuery();
+    }
+
+    public function size($size)
+    {
+        $this->elasticQueryBuilder->size($size);
+
+        return $this;
+    }
+
+    /**
+     * @param $source
+     * @return $this
+     */
+    public function source($source)
+    {
+        $this->elasticQueryBuilder->source($source);
+
+        return $this;
+    }
+
+    /**
+     * @param $score
+     * @return $this
+     */
+    public function min_score($score)
+    {
+        $this->elasticQueryBuilder->min_score($score);
+
+        return $this;
+    }
+
+    /**
+     * @param $from
+     * @return $this
+     */
+    public function from($from)
+    {
+        $this->elasticQueryBuilder->from($from);
+
+        return $this;
+    }
+
+    /**
+     * @param $type
+     * @return $this
+     */
+    public function type($type)
+    {
+        $this->elasticQueryBuilder->type($type);
+
+        return $this;
+    }
+
+
+    public function must($field, $search)
+    {
+        $match = new ElasticMatchQuery($field, $search);
+        $this->elasticBoolQuery->setMust($match);
+        return $this;
+    }
+
+    public function mustNot($field, $search)
+    {
+        $match = new ElasticMatchQuery($field, $search);
+        $this->elasticBoolQuery->setMustNot($match);
+        return $this;
+    }
+
+    public function should($field, $search)
+    {
+        $match = new ElasticMatchQuery($field, $search);
+        $this->elasticBoolQuery->setShould($match);
+        return $this;
+    }
+
+    public function where($field, $search)
+    {
+        $match = new ElasticMatchQuery($field, $search);
+        $this->elasticBoolQuery->setFilter($match);
+        return $this;
+    }
+
+    public function raw($rawQuery)
+    {
+        return $this->search($rawQuery);
+    }
+
+    public function elasticQuery($query)
+    {
+        if (!($query instanceof ElasticQueryBuilder)) {
+            throw new InvalidArgumentException;
+        }
+
+        return $this->search($query->toArray());
+    }
+
+    public function query()
+    {
+        return $this->elasticQueryBuilder->get();
     }
 
     /**
@@ -42,5 +147,10 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
         $results = $this->elasticsearch->search($query);
 
         return new ElasticSearchCollection($results);
+    }
+
+    public function execute()
+    {
+        return $this->search($this->elasticQueryBuilder->get());
     }
 }
