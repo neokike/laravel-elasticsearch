@@ -151,6 +151,6 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
 
     public function execute()
     {
-        return $this->search($this->elasticQueryBuilder->get());
+        return $this->search($this->elasticQueryBuilder->search($this->elasticBoolQuery)->get());
     }
 }
