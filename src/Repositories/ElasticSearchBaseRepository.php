@@ -123,7 +123,7 @@ Abstract class ElasticSearchBaseRepository
 
     public function elasticQuery($query)
     {
-        if (!($query instanceof QueryInterface)) {
+        if (!($query instanceof ElasticQueryBuilder)) {
             throw new InvalidArgumentException;
         }
 

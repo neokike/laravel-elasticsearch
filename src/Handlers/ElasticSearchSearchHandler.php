@@ -36,6 +36,9 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
      */
     public function search($query)
     {
+        if (!array_has($query, 'index'))
+            $query['index'] = $this->indexName;
+
         $results = $this->elasticsearch->search($query);
 
         return new ElasticSearchCollection($results);
