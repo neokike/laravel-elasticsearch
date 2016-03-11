@@ -155,8 +155,8 @@ class ElasticSearchCollection extends \Illuminate\Database\Eloquent\Collection
         $instance = new \stdClass();
 
         $instance->id = $hit['_id'];
-        $instance->index = $hit['index'];
-        $instance->type = $hit['type'];
+        $instance->index = $hit['_index'];
+        $instance->type = $hit['_type'];
 
         // In addition to setting the attributes
         // from the index, we will set the score as well.
