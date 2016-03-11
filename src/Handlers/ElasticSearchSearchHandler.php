@@ -163,6 +163,8 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
             $limit = $this->elasticQueryBuilder->size;
         }
 
+        $page = $this->getPage($page);
+
         $page--;
         $from = $page * $limit;
 
@@ -196,5 +198,20 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
             }
         }
         return $query;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getPage($page)
+    {
+        $urlPage = \Index::get('page');
+
+        if ($urlPage) {
+            $page = $urlPage;
+            return $page;
+        }
+
+        return $page;
     }
 }
