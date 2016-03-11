@@ -156,7 +156,7 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
     }
 
 
-    public function paginate($page = 1, $limit = 10, $query = null)
+    public function paginate($limit = 10, $page = 1, $query = null)
     {
         $query = $this->usedQuery($query);
 
