@@ -10,7 +10,6 @@ class ElasticSearchCollection extends \Illuminate\Database\Eloquent\Collection
     protected $shards;
     protected $hits;
     protected $aggregations = null;
-    protected $instance;
 
     /**
      * Create a new instance containing Elasticsearch results
@@ -154,21 +153,21 @@ class ElasticSearchCollection extends \Illuminate\Database\Eloquent\Collection
     private function newObject($hit)
     {
         $instance = new \stdClass();
+
+        $instance->id = $hit['_id'];
+        $instance->index = $hit['index'];
+        $instance->type = $hit['type'];
+
+        // In addition to setting the attributes
+        // from the index, we will set the score as well.
+        $instance->documentScore = $hit['_score'];
+
+
         if (isset($hit['_source'])) {
             foreach ($hit['_source'] as $key => $value) {
                 $instance->$key = $value;
             }
         }
-        // Add fields to attributes
-        if (isset($hit['fields'])) {
-            foreach ($hit['fields'] as $key => $value) {
-                $instance->$key = $value;
-            }
-        }
-
-        // In addition to setting the attributes
-        // from the index, we will set the score as well.
-        $instance->documentScore = $hit['_score'];
 
         // Set our document version if it's
         if (isset($hit['_version'])) {
