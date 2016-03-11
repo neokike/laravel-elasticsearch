@@ -70,6 +70,5 @@ interface ElasticSearchSearchHandlerInterface
 
     public function query();
 
-    public function execute();
 
 }

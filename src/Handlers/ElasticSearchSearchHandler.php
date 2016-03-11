@@ -116,7 +116,8 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
 
     public function raw($rawQuery)
     {
-        return $this->search($rawQuery);
+        $this->elasticQueryBuilder->raw($rawQuery);
+        return $this;
     }
 
     public function elasticQuery($query)
@@ -125,7 +126,9 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
             throw new InvalidArgumentException;
         }
 
-        return $this->search($query->toArray());
+        $this->elasticQueryBuilder->search($query);
+        return $this;
+
     }
 
     public function query()
@@ -139,8 +142,10 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
      * @param $query
      * @return mixed
      */
-    public function search($query)
+    public function search($query = null)
     {
+        $query = $this->usedQuery($query);
+
         if (!array_has($query, 'index'))
             $query['index'] = $this->indexName;
 
@@ -149,8 +154,47 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
         return new ElasticSearchCollection($results);
     }
 
-    public function execute()
+
+    public function paginate($page = 1, $limit = 10, $query = null)
     {
-        return $this->search($this->elasticQueryBuilder->search($this->elasticBoolQuery)->get());
+        $query = $this->usedQuery($query);
+
+        if ($this->size) {
+            $limit = $this->size;
+        }
+
+        $page--;
+        $from = $page * $limit;
+
+        $query['body']['from'] = $from;
+        $query['body']['size'] = $limit;
+
+        if (!array_has($query, 'index'))
+            $query['index'] = $this->indexName;
+
+        $results = $this->elasticsearch->search($query);
+
+        $search = new ElasticSearchCollection($results);
+
+        return $search->paginate($limit);
+
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    private function usedQuery($query)
+    {
+        if (!$query) {
+            if (!$this->elasticQueryBuilder->search) {
+                $query = $this->elasticQueryBuilder->search($this->elasticBoolQuery)->get();
+                return $query;
+            } else {
+                $query = $this->elasticQueryBuilder->get();
+                return $query;
+            }
+        }
+        return $query;
     }
 }

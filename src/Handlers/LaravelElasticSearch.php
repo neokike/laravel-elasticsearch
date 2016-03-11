@@ -33,6 +33,7 @@ class LaravelElasticSearch implements LaravelElasticSearchInterface
 
     /**
      * index an Searchable object or a collection of them
+     * 
      * @param $documents
      * @return mixed
      */
@@ -43,6 +44,7 @@ class LaravelElasticSearch implements LaravelElasticSearchInterface
 
     /**
      * delete an Searchable object or a collection of them
+     *
      * @param $documents
      * @return mixed
      */
@@ -54,6 +56,7 @@ class LaravelElasticSearch implements LaravelElasticSearchInterface
 
     /**
      * Perform a search
+     *
      * @param $query
      * @return mixed
      */
@@ -72,16 +75,7 @@ class LaravelElasticSearch implements LaravelElasticSearchInterface
      */
     public function paginatedSearch($query, $page = 1, $limit = 10)
     {
-        $page--;
-        $from = $page * $limit;
-
-        $query['body']['from'] = $from;
-        $query['body']['size'] = $limit;
-
-        $searchResult = $this->searcher->search($query);
-        $collection = new ElasticSearchCollection($searchResult);
-
-        return $collection->paginate($limit);
+        return $this->searcher->paginate($page, $limit, $query);
     }
 
 }
