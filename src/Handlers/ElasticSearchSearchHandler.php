@@ -3,6 +3,7 @@
 namespace Neokike\LaravelElasticSearch\Handlers;
 
 use Elasticsearch\Client;
+use Illuminate\Support\Facades\Input;
 use Neokike\LaravelElasticSearch\Collections\ElasticSearchCollection;
 use Neokike\LaravelElasticSearch\Contracts\ElasticSearchSearchHandlerInterface;
 use Neokike\LaravelElasticSearch\Exceptions\InvalidArgumentException;
@@ -205,7 +206,7 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
      */
     private function getPage($page)
     {
-        $urlPage = \Index::get('page');
+        $urlPage = Input::get('page');
 
         if ($urlPage) {
             $page = $urlPage;

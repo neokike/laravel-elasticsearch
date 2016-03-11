@@ -13,7 +13,8 @@
     "neokike/laravel-elasticsearch-query-builder": "dev-master",
     "elasticsearch/elasticsearch": "~2.0",
     "monolog/monolog": "~1.0",
-    "illuminate/database": "~4.2|^5"
+    "illuminate/database": "~4.2|^5",
+    "illuminate/http": "~4.2|^5"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
