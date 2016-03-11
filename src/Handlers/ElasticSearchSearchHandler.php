@@ -9,6 +9,7 @@ use Neokike\LaravelElasticSearch\Contracts\ElasticSearchSearchHandlerInterface;
 use Neokike\LaravelElasticSearch\Exceptions\InvalidArgumentException;
 use Neokike\LaravelElasticSearch\Handlers\Traits\ElasticSearchHandlerTrait;
 use Neokike\LaravelElasticsearchQueryBuilder\ElasticQueryBuilder;
+use Neokike\LaravelElasticsearchQueryBuilder\Interfaces\QueryInterface;
 use Neokike\LaravelElasticsearchQueryBuilder\Queries\Bool\ElasticBoolQuery;
 use Neokike\LaravelElasticsearchQueryBuilder\Queries\Match\ElasticMatchQuery;
 
@@ -198,6 +199,10 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
                 return $query;
             }
         }
+
+        if ($query instanceof QueryInterface)
+            $query = $this->elasticQueryBuilder->search($query)->get();
+
         return $query;
     }
 
