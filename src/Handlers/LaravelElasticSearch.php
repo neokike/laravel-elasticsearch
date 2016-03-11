@@ -33,7 +33,7 @@ class LaravelElasticSearch implements LaravelElasticSearchInterface
 
     /**
      * index an Searchable object or a collection of them
-     * 
+     *
      * @param $documents
      * @return mixed
      */

@@ -159,8 +159,8 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
     {
         $query = $this->usedQuery($query);
 
-        if ($this->size) {
-            $limit = $this->size;
+        if ($this->elasticQueryBuilder->size) {
+            $limit = $this->elasticQueryBuilder->size;
         }
 
         $page--;

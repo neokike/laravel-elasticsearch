@@ -162,12 +162,7 @@ class ElasticSearchCollection extends \Illuminate\Database\Eloquent\Collection
         // from the index, we will set the score as well.
         $instance->documentScore = $hit['_score'];
 
-
-        if (isset($hit['_source'])) {
-            foreach ($hit['_source'] as $key => $value) {
-                $instance->$key = $value;
-            }
-        }
+        $instance->source = $hit['_source'];
 
         // Set our document version if it's
         if (isset($hit['_version'])) {
