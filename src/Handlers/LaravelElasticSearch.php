@@ -1,7 +1,9 @@
 <?php
 namespace Neokike\LaravelElasticSearch\Handlers;
 
+use Neokike\LaravelElasticSearch\Collections\ElasticSearchCollection;
 use Neokike\LaravelElasticSearch\Contracts\LaravelElasticSearchInterface;
+use stdClass;
 
 class LaravelElasticSearch implements LaravelElasticSearchInterface
 {
@@ -59,4 +61,27 @@ class LaravelElasticSearch implements LaravelElasticSearchInterface
     {
         return $this->searcher->search($query);
     }
+
+    /**
+     * Get results by page
+     *
+     * @param $query
+     * @param int $page
+     * @param int $limit
+     * @return ElasticSearchCollection
+     */
+    public function paginatedSearch($query, $page = 1, $limit = 10)
+    {
+        $page--;
+        $from = $page * $limit;
+
+        $query['body']['from'] = $from;
+        $query['body']['size'] = $limit;
+
+        $searchResult = $this->searcher->search($query);
+        $collection = new ElasticSearchCollection($searchResult);
+
+        return $collection->paginate($limit);
+    }
+
 }
