@@ -26,6 +26,8 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
      */
     protected $indexName;
 
+    protected $query;
+
     /**
      * @param Client $elasticsearch
      */
@@ -128,7 +130,7 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
             throw new InvalidArgumentException;
         }
 
-        $this->elasticQueryBuilder->query($query);
+        $this->query($query);
         return $this;
 
     }
@@ -195,7 +197,7 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
                 $query = $this->elasticQueryBuilder->query($this->elasticBoolQuery)->get();
                 return $query;
             } else {
-                $query = $this->elasticQueryBuilder->get();
+                $query = $this->query->get();
                 return $query;
             }
         }
