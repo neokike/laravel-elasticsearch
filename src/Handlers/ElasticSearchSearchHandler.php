@@ -10,8 +10,8 @@ use Neokike\LaravelElasticSearch\Exceptions\InvalidArgumentException;
 use Neokike\LaravelElasticSearch\Handlers\Traits\ElasticSearchHandlerTrait;
 use Neokike\LaravelElasticsearchQueryBuilder\ElasticQueryBuilder;
 use Neokike\LaravelElasticsearchQueryBuilder\Interfaces\QueryInterface;
-use Neokike\LaravelElasticsearchQueryBuilder\Queries\Bool\ElasticBoolQuery;
-use Neokike\LaravelElasticsearchQueryBuilder\Queries\Match\ElasticMatchQuery;
+use Neokike\LaravelElasticsearchQueryBuilder\Queries\Bool\BoolQuery;
+use Neokike\LaravelElasticsearchQueryBuilder\Queries\Match\MatchQuery;
 
 class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
 {
@@ -33,7 +33,7 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
     {
         $this->elasticsearch = $elasticsearch;
         $this->elasticQueryBuilder = new ElasticQueryBuilder();
-        $this->elasticBoolQuery = new ElasticBoolQuery();
+        $this->elasticBoolQuery = new BoolQuery();
     }
 
     public function size($size)
@@ -90,28 +90,28 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
 
     public function must($field, $search)
     {
-        $match = new ElasticMatchQuery($field, $search);
+        $match = new MatchQuery($field, $search);
         $this->elasticBoolQuery->setMust($match);
         return $this;
     }
 
     public function mustNot($field, $search)
     {
-        $match = new ElasticMatchQuery($field, $search);
+        $match = new MatchQuery($field, $search);
         $this->elasticBoolQuery->setMustNot($match);
         return $this;
     }
 
     public function should($field, $search)
     {
-        $match = new ElasticMatchQuery($field, $search);
+        $match = new MatchQuery($field, $search);
         $this->elasticBoolQuery->setShould($match);
         return $this;
     }
 
     public function where($field, $search)
     {
-        $match = new ElasticMatchQuery($field, $search);
+        $match = new MatchQuery($field, $search);
         $this->elasticBoolQuery->setFilter($match);
         return $this;
     }
