@@ -191,8 +191,8 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
     private function usedQuery($query)
     {
         if (!$query) {
-            if (!$this->elasticQueryBuilder->search) {
-                $query = $this->elasticQueryBuilder->search($this->elasticBoolQuery)->get();
+            if (!$this->elasticQueryBuilder->query) {
+                $query = $this->elasticQueryBuilder->query($this->elasticBoolQuery)->get();
                 return $query;
             } else {
                 $query = $this->elasticQueryBuilder->get();
@@ -201,7 +201,7 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
         }
 
         if ($query instanceof QueryInterface)
-            $query = $this->elasticQueryBuilder->search($query)->get();
+            $query = $this->elasticQueryBuilder->query($query)->get();
 
         return $query;
     }
