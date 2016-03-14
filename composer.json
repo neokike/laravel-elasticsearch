@@ -10,7 +10,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "neokike/laravel-elasticsearch-query-builder": "dev-master",
+    "neokike/laravel-elasticsearch-query-builder": "~1.0",
     "elasticsearch/elasticsearch": "~2.0",
     "monolog/monolog": "~1.0",
     "illuminate/database": "~4.2|^5",
