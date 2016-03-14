@@ -128,7 +128,7 @@ class ElasticSearchSearchHandler implements ElasticSearchSearchHandlerInterface
             throw new InvalidArgumentException;
         }
 
-        $this->elasticQueryBuilder->search($query);
+        $this->elasticQueryBuilder->query($query);
         return $this;
 
     }
