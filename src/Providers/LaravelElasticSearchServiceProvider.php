@@ -4,6 +4,10 @@ namespace Neokike\LaravelElasticSearch\Providers;
 
 use Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
+use Neokike\LaravelElasticSearch\Commands\CreateIndexCommand;
+use Neokike\LaravelElasticSearch\Commands\DeleteIndexCommand;
+use Neokike\LaravelElasticSearch\Commands\GetIndexSettingsCommand;
+use Neokike\LaravelElasticSearch\Commands\ReCreateIndexCommand;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexDocumentsHandler;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexManagementHandler;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchSearchHandler;
@@ -58,7 +62,6 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
 
             $searchHandler = new ElasticSearchIndexManagementHandler($elasticSearchClient);
             $searchHandler->setIndexName($config['defaultIndexName']);
-
             $searchHandler->setAnalysis($config['analysis']);
             $searchHandler->setMappings($config['mappings']);
             $searchHandler->setShrads($config['number_of_shards']);
@@ -86,6 +89,37 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
             $laravelElasticSearch = new LaravelElasticSearch($app[ElasticSearchIndexManagementHandler::class], $app[ElasticSearchIndexDocumentsHandler::class], $app[ElasticSearchSearchHandler::class]);
             return $laravelElasticSearch;
         });
+
+        $this->app['command.elasticsearch.createIndex'] = $this->app->share(
+            function ($app) {
+                $config = $app['config']->get('laravelElasticSearch');
+                return new CreateIndexCommand($config);
+            }
+        );
+
+        $this->app['command.elasticsearch.recreateIndex'] = $this->app->share(
+            function ($app) {
+                $config = $app['config']->get('laravelElasticSearch');
+                return new ReCreateIndexCommand($config);
+            }
+        );
+
+        $this->app['command.elasticsearch.deleteIndex'] = $this->app->share(
+            function ($app) {
+                return new DeleteIndexCommand();
+            }
+        );
+
+        $this->app['command.elasticsearch.getSettings'] = $this->app->share(
+            function ($app) {
+                return new GetIndexSettingsCommand();
+            }
+        );
+
+        $this->commands(['command.elasticsearch.createIndex',
+                         'command.elasticsearch.deleteIndex',
+                         'command.elasticsearch.recreateIndex',
+                         'command.elasticsearch.getSettings']);
     }
 
     /**

@@ -155,7 +155,7 @@ class ElasticSearchIndexManagementHandler implements ElasticSearchIndexManagemen
 
         $indexQty = count($indexes);
 
-        if ($indexQty) {
+        if (!$indexQty) {
             return $this->elasticsearch->indices()->getSettings(['index' => $this->indexName]);
         }
 
@@ -246,11 +246,13 @@ class ElasticSearchIndexManagementHandler implements ElasticSearchIndexManagemen
 
     /**
      * recreate index with default options in config file
+     * @param array $config
      * @return mixed
+     * @throws InvalidArgumentException
      */
-    public function recreate()
+    public function recreate($config = [])
     {
         $this->delete($this->indexName);
-        return $this->create();
+        return $this->create($config);
     }
 }
