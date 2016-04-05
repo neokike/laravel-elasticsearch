@@ -48,6 +48,6 @@ class ReCreateIndexCommand extends Command
      */
     public function handle()
     {
-        $this->info($this->manager->recreate($this->config));
+        $this->info($this->manager->recreate());
     }
 }

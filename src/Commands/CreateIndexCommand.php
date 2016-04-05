@@ -48,6 +48,6 @@ class CreateIndexCommand extends Command
      */
     public function handle()
     {
-        $this->info($this->manager->create($this->config));
+        $this->info($this->manager->create());
     }
 }
