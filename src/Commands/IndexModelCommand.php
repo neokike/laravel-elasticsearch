@@ -55,11 +55,14 @@ class IndexModelCommand extends Command
 
         if (class_exists($model)) {
             $rows = $model::all();
-            $rows->each(function ($row) use ($model) {
+            $this->info('Indexing ' . count($rows) . ' documents (' . $model . ')');
+            $bar = $this->output->createProgressBar(count($rows));
+            $rows->each(function ($row) use ($model, $bar) {
                 $row = $row->prepareModelToIndex();
                 $this->document->upsertToIndex($row);
-                $this->info($model . ' indexed');
+                $bar->advance();
             });
+            $bar->finish();
         } else {
             $this->error($model . ' class doesnt exists');
         };
