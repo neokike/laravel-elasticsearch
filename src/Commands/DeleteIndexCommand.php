@@ -48,7 +48,8 @@ class DeleteIndexCommand extends Command
     public function handle()
     {
         $index = $this->argument('index');
-        
-        $this->info($this->manager->delete($index));
+        $this->manager->delete($index);
+        $this->info('index deleted');
+
     }
 }

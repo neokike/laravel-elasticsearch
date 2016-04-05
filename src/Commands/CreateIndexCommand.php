@@ -48,6 +48,7 @@ class CreateIndexCommand extends Command
      */
     public function handle()
     {
-        $this->info($this->manager->create());
+        $response = $this->manager->create();
+        $this->info('index created');
     }
 }

@@ -48,6 +48,7 @@ class ReCreateIndexCommand extends Command
      */
     public function handle()
     {
-        $this->info($this->manager->recreate());
+        $response = $this->manager->recreate();
+        $this->info('index recreated');
     }
 }

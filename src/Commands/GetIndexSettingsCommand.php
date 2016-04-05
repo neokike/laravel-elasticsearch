@@ -51,6 +51,7 @@ class GetIndexSettingsCommand extends Command
         if ($index) {
             $indexes[] = $index;
         }
-        $this->info($this->manager->getSettings($indexes));
+        $settings = $this->manager->getSettings($indexes);
+        $this->info(json_encode($settings));
     }
 }

@@ -47,6 +47,7 @@ class GetMappingSettingsCommand extends Command
     public function handle()
     {
         $type = $this->argument('type');
-        $this->info($this->manager->getMappings($type));
+        $mappings = $this->manager->getMappings($type);
+        $this->info(json_encode($mappings));
     }
 }
