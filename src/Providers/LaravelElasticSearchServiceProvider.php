@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Neokike\LaravelElasticSearch\Commands\CreateIndexCommand;
 use Neokike\LaravelElasticSearch\Commands\DeleteIndexCommand;
 use Neokike\LaravelElasticSearch\Commands\GetIndexSettingsCommand;
+use Neokike\LaravelElasticSearch\Commands\IndexModelCommand;
 use Neokike\LaravelElasticSearch\Commands\ReCreateIndexCommand;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexDocumentsHandler;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexManagementHandler;
@@ -116,10 +117,17 @@ class LaravelElasticSearchServiceProvider extends ServiceProvider
             }
         );
 
+        $this->app['command.elasticsearch.indexModel'] = $this->app->share(
+            function ($app) {
+                return new IndexModelCommand();
+            }
+        );
+
         $this->commands(['command.elasticsearch.createIndex',
                          'command.elasticsearch.deleteIndex',
                          'command.elasticsearch.recreateIndex',
-                         'command.elasticsearch.getSettings']);
+                         'command.elasticsearch.getSettings',
+                         'command.elasticsearch.indexModel']);
     }
 
     /**
