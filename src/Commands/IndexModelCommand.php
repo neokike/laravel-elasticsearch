@@ -54,16 +54,12 @@ class IndexModelCommand extends Command
         $model = $this->argument('model');
 
         if (class_exists($model)) {
-            if ($model instanceof Searchable) {
-                $rows = $model::all();
-                $rows->each(function ($row) use ($model) {
-                    $row = $row->prepareModelToIndex();
-                    $this->document->upsertToIndex($row);
-                    $this->info($model . ' indexed');
-                });
-            } else {
-                $this->error($model . ' must be an instance of Searchable');
-            }
+            $rows = $model::all();
+            $rows->each(function ($row) use ($model) {
+                $row = $row->prepareModelToIndex();
+                $this->document->upsertToIndex($row);
+                $this->info($model . ' indexed');
+            });
         } else {
             $this->error($model . ' class doesnt exists');
         };
