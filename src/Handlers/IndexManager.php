@@ -3,14 +3,13 @@
 namespace Neokike\LaravelElasticSearch\Handlers;
 
 use Elasticsearch\Client;
-use Illuminate\Support\Facades\Config;
-use Neokike\LaravelElasticSearch\Contracts\ElasticSearchIndexManagementHandlerInterface;
+use Neokike\LaravelElasticSearch\Contracts\IndexManagerContract;
 use Neokike\LaravelElasticSearch\Exceptions\InvalidArgumentException;
-use Neokike\LaravelElasticSearch\Handlers\Traits\ElasticSearchHandlerTrait;
+use Neokike\LaravelElasticSearch\Handlers\Traits\HandlerTrait;
 
-class ElasticSearchIndexManagementHandler implements ElasticSearchIndexManagementHandlerInterface
+class IndexManager implements IndexManagerContract
 {
-    use ElasticSearchHandlerTrait;
+    use HandlerTrait;
 
     /**
      * @var Client

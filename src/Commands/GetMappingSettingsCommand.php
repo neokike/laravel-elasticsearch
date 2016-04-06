@@ -3,7 +3,7 @@ namespace Neokike\LaravelElasticSearch\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
-use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexManagementHandler;
+use Neokike\LaravelElasticSearch\Handlers\IndexManager;
 
 class GetMappingSettingsCommand extends Command
 {
@@ -25,7 +25,7 @@ class GetMappingSettingsCommand extends Command
      */
     private $config;
     /**
-     * @var ElasticSearchIndexManagementHandler
+     * @var IndexManager
      */
     private $manager;
 
@@ -36,7 +36,7 @@ class GetMappingSettingsCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->manager = App::make(ElasticSearchIndexManagementHandler::class);
+        $this->manager = App::make(IndexManager::class);
     }
 
     /**

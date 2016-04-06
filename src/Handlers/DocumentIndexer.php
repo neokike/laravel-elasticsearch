@@ -2,14 +2,14 @@
 namespace Neokike\LaravelElasticSearch\Handlers;
 
 use Elasticsearch\Client;
-use Neokike\LaravelElasticSearch\Contracts\ElasticSearchIndexDocumentsHandlerInterface;
+use Neokike\LaravelElasticSearch\Contracts\DocumentIndexerContract;
 use Neokike\LaravelElasticSearch\Contracts\Searchable;
-use Neokike\LaravelElasticSearch\Handlers\Traits\ElasticSearchHandlerTrait;
+use Neokike\LaravelElasticSearch\Handlers\Traits\HandlerTrait;
 
-class ElasticSearchIndexDocumentsHandler implements ElasticSearchIndexDocumentsHandlerInterface
+class DocumentIndexer implements DocumentIndexerContract
 {
 
-    use ElasticSearchHandlerTrait;
+    use HandlerTrait;
     /**
      * @var Client
      */

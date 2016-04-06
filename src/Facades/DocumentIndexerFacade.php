@@ -3,11 +3,11 @@ namespace Neokike\LaravelElasticSearch\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class ElasticSearchIndexManagementFacade extends Facade
+class DocumentIndexerFacade extends Facade
 {
 
     public static function getFacadeAccessor()
     {
-        return 'ElasticSearchIndexManagement';
+        return 'DocumentIndexer';
     }
 }

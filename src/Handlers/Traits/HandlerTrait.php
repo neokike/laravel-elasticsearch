@@ -1,7 +1,7 @@
 <?php
 namespace Neokike\LaravelElasticSearch\Handlers\Traits;
 
-trait ElasticSearchHandlerTrait
+trait HandlerTrait
 {
 
     /**

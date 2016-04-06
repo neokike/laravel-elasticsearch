@@ -3,7 +3,7 @@ namespace Neokike\LaravelElasticSearch\Contracts;
 
 use Elasticsearch\Client;
 
-interface ElasticSearchSearchHandlerInterface
+interface SearcherContract
 {
 
     /**
@@ -25,10 +25,9 @@ interface ElasticSearchSearchHandlerInterface
     /**
      * it performs a search
      *
-     * @param $query
      * @return mixed
      */
-    public function search($query);
+    public function search();
 
     public function size($size);
 
@@ -55,20 +54,9 @@ interface ElasticSearchSearchHandlerInterface
      * @return $this
      */
     public function type($type);
-
-    public function must($field, $search);
-
-    public function mustNot($field, $search);
-
-    public function should($field, $search);
-
-    public function where($field, $search);
-
-    public function raw($rawQuery);
-
-    public function elasticQuery($query);
-
-    public function query();
+    
+    
+    public function query($query);
 
 
 }

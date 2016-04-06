@@ -3,7 +3,7 @@ namespace Neokike\LaravelElasticSearch\Contracts;
 
 use Elasticsearch\Client;
 
-interface ElasticSearchIndexDocumentsHandlerInterface
+interface DocumentIndexerContract
 {
 
     /**

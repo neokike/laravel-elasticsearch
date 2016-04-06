@@ -10,7 +10,7 @@ use Neokike\LaravelElasticSearch\Contracts\Searchable;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ElasticSearchIndexDocumentsHandlerSpec extends ObjectBehavior
+class DocumentIndexerSpec extends ObjectBehavior
 {
 
     protected $client;
@@ -41,7 +41,7 @@ class ElasticSearchIndexDocumentsHandlerSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexDocumentsHandler');
+        $this->shouldHaveType('Neokike\LaravelElasticSearch\Handlers\DocumentIndexer');
     }
 
     function it_set_index_name()

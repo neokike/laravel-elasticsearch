@@ -3,9 +3,8 @@ namespace Neokike\LaravelElasticSearch\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
-use Neokike\LaravelElasticSearch\Contracts\Searchable;
-use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexDocumentsHandler;
-use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexManagementHandler;
+use Neokike\LaravelElasticSearch\Handlers\DocumentIndexer;
+use Neokike\LaravelElasticSearch\Handlers\IndexManager;
 
 class IndexModelCommand extends Command
 {
@@ -28,7 +27,7 @@ class IndexModelCommand extends Command
      */
     private $config;
     /**
-     * @var ElasticSearchIndexManagementHandler
+     * @var IndexManager
      */
     private $manager;
 
@@ -40,8 +39,8 @@ class IndexModelCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->manager = App::make(ElasticSearchIndexManagementHandler::class);
-        $this->document = App::make(ElasticSearchIndexDocumentsHandler::class);
+        $this->manager = App::make(IndexManager::class);
+        $this->document = App::make(DocumentIndexer::class);
     }
 
     /**

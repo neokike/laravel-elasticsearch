@@ -4,9 +4,10 @@ use Elasticsearch\Client;
 use Elasticsearch\Namespaces\IndicesNamespace;
 use Neokike\LaravelElasticSearch\Exceptions\InvalidArgumentException;
 use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexManagementHandler;
+use Neokike\LaravelElasticSearch\Handlers\IndexManager;
 use Test\units\TestCase;
 
-class ElasticSearchIndexManagementHandlerTest extends TestCase
+class IndexManagerTest extends TestCase
 {
 
     protected $indexManagement;
@@ -61,7 +62,7 @@ class ElasticSearchIndexManagementHandlerTest extends TestCase
         $clientMock = Mockery::mock(Client::class);
         $clientMock->shouldReceive('indices')->andReturn($indicesMock);
 
-        $this->indexManagement = new ElasticSearchIndexManagementHandler($clientMock);
+        $this->indexManagement = new IndexManager($clientMock);
     }
 
     /**
@@ -330,7 +331,7 @@ class ElasticSearchIndexManagementHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_call_other_method_in_elasticsearch_client()
+    public function it_call_another_method_in_elasticsearch_client()
     {
         $type = 'myIndex';
         $response = $this->indexManagement->analyze($type);

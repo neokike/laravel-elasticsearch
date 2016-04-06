@@ -3,7 +3,7 @@ namespace Neokike\LaravelElasticSearch\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
-use Neokike\LaravelElasticSearch\Handlers\ElasticSearchIndexManagementHandler;
+use Neokike\LaravelElasticSearch\Handlers\IndexManager;
 
 class DeleteIndexCommand extends Command
 {
@@ -25,7 +25,7 @@ class DeleteIndexCommand extends Command
      */
     private $config;
     /**
-     * @var ElasticSearchIndexManagementHandler
+     * @var IndexManager
      */
     private $manager;
 
@@ -37,7 +37,7 @@ class DeleteIndexCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->manager = App::make(ElasticSearchIndexManagementHandler::class);
+        $this->manager = App::make(IndexManager::class);
     }
 
     /**
